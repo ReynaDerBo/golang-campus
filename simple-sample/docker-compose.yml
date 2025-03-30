@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    container_name: go-app
+    command: ["./main"]
+    ports:
+      - "8084:8084"
+    depends_on:
+      - db
+    environment:
+      environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db
+      DB_PORT: 5434
+      DB_NAME: preguntas_db
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: preguntas_db
+    ports:
+      - "5434:5434"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+volumes:
+  pgdata:
